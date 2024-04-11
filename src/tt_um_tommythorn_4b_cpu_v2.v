@@ -59,7 +59,7 @@ module tt_um_tommythorn_4b_cpu_v2 (
         end
         `LoadCode: begin
            $display("        LoadCode %d: Insn %d", pc, ui_in[7:4]);
-           code[pc] <= ui_in[7:4];
+           code[pc] <= ui_in[5:4];
            pc <= npc;
         end
         `LoadData: begin
@@ -71,7 +71,7 @@ module tt_um_tommythorn_4b_cpu_v2 (
            case (code[pc])
              `Load: begin
                 $display("        Exec %d: Load acc = %d", pc, arg);
-                acc <= arg; pc = npc;
+                acc <= arg; pc <= npc;
              end
              `Store: begin
                 $display("        Exec %d: Store [%d]=%d", pc, arg[2:0], acc);
@@ -86,7 +86,7 @@ module tt_um_tommythorn_4b_cpu_v2 (
                   $display("        Exec %d: Bz %d taken", pc, arg);
                 else
                   $display("        Exec %d: Bz %d skipped", pc, arg);
-                pc <= acc == 0 ? arg : npc;
+                pc <= acc == 0 ? arg[2:0] : npc;
              end
            endcase
            end
